@@ -3,7 +3,6 @@ package ir.mahan.train.view;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -13,9 +12,12 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.JList;
 import javax.swing.border.Border;
+
+import ir.mahan.train.model.*;
 
 public class FormPanel extends JPanel implements ActionListener{
 	
@@ -25,16 +27,25 @@ public class FormPanel extends JPanel implements ActionListener{
 	private JLabel genderLabel;
 	private JLabel ageLabel;
 	private JLabel cityLabel;
+	private JLabel sportLabel;
+	private JLabel empStatusLabel;
+	private JLabel salaryLabel;
+	
 	private JTextField nameField;
 	private JTextField familyField;
-	private JComboBox categoryField;
-	private JComboBox genderField;
-	private JRadioButton age18Field;
-	private JRadioButton age20Field;
-	private JRadioButton age30Field;
-	private JCheckBox cityTehranField;
-	private JCheckBox cityKermanField;
-	private JButton okBtn;
+	private JComboBox categoryCombo;
+	private JComboBox genderCombo;
+	private JTextField ageField;
+	private JTextField salaryField;
+	
+	private JList sportList;
+	
+	private JCheckBox empStatusCheck;
+	
+	private JButton submitButton;
+	
+	private CityPanel cityPanel;
+	
 	
 	private IstringListener istringListener;
 	
@@ -50,33 +61,37 @@ public class FormPanel extends JPanel implements ActionListener{
 		genderLabel = new JLabel("Gender: ");
 		ageLabel = new JLabel("Age: ");
 		cityLabel = new JLabel("City: ");
+		sportLabel = new JLabel("Sport(s): ");
+		empStatusLabel = new JLabel("Emp. Status: ");
+		salaryLabel = new JLabel("Salary: ");
 		
 		nameField = new JTextField(10);
 		familyField = new JTextField(10);
-		categoryField = new JComboBox();
-		genderField = new JComboBox();
-		age18Field = new JRadioButton();
-		age20Field = new JRadioButton();
-		age30Field = new JRadioButton();
-		cityTehranField = new JCheckBox();
-		cityKermanField = new JCheckBox();
-		okBtn = new JButton("Submit");
+		categoryCombo = new JComboBox(Category.values());
+		genderCombo = new JComboBox(Gender.values());
+		ageField = new JTextField(10);
+		salaryField = new JTextField(10);
 		
-		okBtn.addActionListener(this);
+		sportList = new JList(Sport.values());
 		
-		categoryField.addItem("Student");
-		categoryField.addItem("Teacher");
-		categoryField.addItem("Staff");
+		empStatusCheck = new JCheckBox("Is Employee?");
 		
-		genderField.addItem("Female");
-		genderField.addItem("Male");
+		submitButton = new JButton("Submit");
 		
-		age18Field.setText("18");
-		age20Field.setText("20");
-		age30Field.setText("30");
+		cityPanel = new CityPanel();
 		
-		cityTehranField.setText("Tehran");
-		cityKermanField.setText("Kerman");
+		categoryCombo.setSelectedIndex(-1);
+		genderCombo.setSelectedIndex(-1);
+		sportList.setSelectedIndex(-1);
+		
+		sportList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		
+		salaryField.setEnabled(false);
+		
+		
+		empStatusCheck.addActionListener(this);
+		submitButton.addActionListener(this);
+		
 		
 		Border innerBorder = BorderFactory.createTitledBorder("User Panel"); 
 		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5); 
@@ -85,6 +100,7 @@ public class FormPanel extends JPanel implements ActionListener{
 		layoutComponent() ;
 	}
 	public void layoutComponent() {
+		
 		GridBagConstraints gc = new GridBagConstraints();
 
 		gc.weightx = 1;
@@ -131,7 +147,7 @@ public class FormPanel extends JPanel implements ActionListener{
 		gc.gridx ++;
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.fill = GridBagConstraints.HORIZONTAL;
-		add(categoryField, gc);
+		add(categoryCombo, gc);
 		//
 		
 		//Gender
@@ -146,7 +162,7 @@ public class FormPanel extends JPanel implements ActionListener{
 		gc.gridx ++;
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.fill = GridBagConstraints.HORIZONTAL;
-		add(genderField, gc);
+		add(genderCombo, gc);
 		//
 		
 		//Age
@@ -161,17 +177,7 @@ public class FormPanel extends JPanel implements ActionListener{
 		gc.gridx ++;
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.fill = GridBagConstraints.HORIZONTAL;
-		add(age18Field, gc);
-		
-		gc.gridy ++;
-		gc.anchor = GridBagConstraints.LINE_START;
-		gc.fill = GridBagConstraints.HORIZONTAL;
-		add(age20Field, gc);
-		
-		gc.gridy ++;
-		gc.anchor = GridBagConstraints.LINE_START;
-		gc.fill = GridBagConstraints.HORIZONTAL;
-		add(age30Field, gc);
+		add(ageField, gc);
 		//
 		
 		//City
@@ -186,12 +192,52 @@ public class FormPanel extends JPanel implements ActionListener{
 		gc.gridx ++;
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.fill = GridBagConstraints.HORIZONTAL;
-		add(cityTehranField, gc);
+		add(cityPanel, gc);
+		//
 		
-		gc.gridy ++;
+		//Sport
+		gc.weightx = 1;
+		gc.weighty = 0.1;
+		gc.gridy++;
+		gc.gridx = 0;
 		gc.anchor = GridBagConstraints.LINE_START;
 		gc.fill = GridBagConstraints.HORIZONTAL;
-		add(cityKermanField, gc);
+		add(sportLabel, gc);
+		
+		gc.gridx ++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		add(sportList, gc);
+		//
+		
+		//Employment Status
+		gc.weightx = 1;
+		gc.weighty = 0.1;
+		gc.gridy++;
+		gc.gridx = 0;
+		gc.anchor = GridBagConstraints.LINE_START;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		add(empStatusLabel, gc);
+		
+		gc.gridx ++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		add(empStatusCheck, gc);
+		//
+		
+		//Salary
+		gc.weightx = 1;
+		gc.weighty = 0.1;
+		gc.gridy++;
+		gc.gridx = 0;
+		gc.anchor = GridBagConstraints.LINE_START;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		add(salaryLabel, gc);
+		
+		gc.gridx ++;
+		gc.anchor = GridBagConstraints.LINE_START;
+		gc.fill = GridBagConstraints.HORIZONTAL;
+		add(salaryField, gc);
 		//
 		
 		gc.weightx = 1;
@@ -200,46 +246,72 @@ public class FormPanel extends JPanel implements ActionListener{
 		gc.gridy++;
 		gc.gridx = 1;
 		gc.anchor = GridBagConstraints.FIRST_LINE_START;
-		add(okBtn, gc);
+		add(submitButton, gc);
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		JButton component = (JButton) event.getSource();
-		if (component == okBtn) {
+		Object component = (Object) event.getSource();
+		
+		if (component == empStatusCheck) {
+			event_empStatusCheck();
+		}
+		
+		if (component == submitButton) {
 			if (istringListener != null) {
 				
-				String age = "";
-				String city = "";
+				event_subbmitButton();
 				
-				if (age18Field.isSelected() == true)
-					age = age18Field.getText();
-				if (age20Field.isSelected() == true)
-					age = age20Field.getText();
-				if (age30Field.isSelected() == true)
-					age = age30Field.getText();
-				
-				if (cityTehranField.isSelected() == true)
-					city = cityTehranField.getText();
-				if (cityKermanField.isSelected() == true)
-				{
-					if (city == "")
-						city = cityKermanField.getText();
-					else
-						city = city + ", " + cityKermanField.getText();
-				}
-				
-				istringListener.strginEmmited("Name: "+nameField.getText()
-											+"; Family: "+familyField.getText()
-											+"; Category: "+categoryField.getSelectedItem()
-											+"; Gender: "+genderField.getSelectedItem()
-											+"; Age: "+age
-											+"; City: "+city);
 			}
-		}
+		}		
+	}
+	
+	private void event_empStatusCheck() {
+			
+		salaryField.setEnabled(empStatusCheck.isSelected());
+			
+	}
+	
+	private void event_subbmitButton() {
+		
+		Person person = new Person();
+		
+		person.firstName = nameField.getText();
+		person.lastName = familyField.getText();
+		person.gender = Gender.valueOf(genderCombo.getSelectedItem().toString());
+		person.age = Integer.parseInt(ageField.getText());
+		person.category = Category.valueOf(categoryCombo.getSelectedItem().toString());
+		//if (cityPanel.cityTehranField.isSelected() == true)
+		//	person.city.add(City.Tehran);
+		//if (cityPanel.cityKermanField.isSelected() == true)
+		//	person.city.add(City.Kerman);
+		person.sport = sportList.getSelectedValuesList();
+		person.isEmployee = empStatusCheck.isSelected();
+		if (person.isEmployee == true)
+			person.salary = Long.parseLong(salaryField.getText());
+		else
+			person.salary = 0;
+		
+		
+		StringBuilder stringPerson = new StringBuilder();
+		
+		stringPerson.append("First Name: "+person.firstName);
+		stringPerson.append("; Last Name: "+person.lastName);
+		stringPerson.append("; Gender: "+person.gender);
+		stringPerson.append("; Age: "+person.age);
+		stringPerson.append("; Category: "+person.category);
+		stringPerson.append("; City: "+person.city);
+		stringPerson.append("; Sport: "+person.sport);
+		if (person.isEmployee == true)
+			stringPerson.append("; Salary: "+person.salary);
+		
+		istringListener.strginEmmited(stringPerson.toString());
+			
 	}
 
 	public void setIstringListener(IstringListener istringListener) {
+		
 		this.istringListener = istringListener;
+	
 	}
 }

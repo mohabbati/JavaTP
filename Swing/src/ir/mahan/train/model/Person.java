@@ -9,7 +9,7 @@ public class Person {
 	public Gender gender;
 	public int age;
 	public Category category;
-	public City city;
+	public List<City> city;
 	public List<Sport> sport;
 	public boolean isEmployee;
 	public long salary;
@@ -45,10 +45,10 @@ public class Person {
 	public void setCategory(Category category) {
 		this.category = category;
 	}
-	public City getCity() {
+	public List<City> getCity() {
 		return city;
 	}
-	public void setCity(City city) {
+	public void setCity(List<City> city) {
 		this.city = city;
 	}
 	public List<Sport> getSport() {
@@ -70,7 +70,7 @@ public class Person {
 		this.salary = salary;
 	}
 	
-	
+	/*
 	public Person(String firstName, String lastName, Gender gender, int age,
 			Category category, City city, List<Sport> sport,
 			boolean isEmployee, long salary) {
@@ -85,5 +85,5 @@ public class Person {
 		this.isEmployee = isEmployee;
 		this.salary = salary;
 	}
-
+	 */
 }
