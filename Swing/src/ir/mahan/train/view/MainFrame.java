@@ -1,7 +1,10 @@
 package ir.mahan.train.view;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -9,7 +12,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSeparator;
 
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame implements ActionListener{
 
 	public TextPanel textPanel;
 	public FormPanel formPanel;
@@ -76,6 +79,23 @@ public class MainFrame extends JFrame{
 		fileMenu.add(separator);
 		fileMenu.add(exitMenuItem);
 		
+		saveToFileMenuItem.addActionListener(this);
+		loadFromFileMenuItem.addActionListener(this);
+		exitMenuItem.addActionListener(this);
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		
+		JMenuItem component = (JMenuItem) event.getSource();
+		
+		if (component == exitMenuItem) {
+
+			System.exit(0);;
+
+		}
+
 	}
 	
 }

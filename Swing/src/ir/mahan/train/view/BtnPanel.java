@@ -15,7 +15,6 @@ public class BtnPanel extends JPanel implements ActionListener {
 	private JButton okButton;
 	private JButton cancelButton;
 	
-	
 	private IstringListener istringListener;
 
 	public BtnPanel() {
