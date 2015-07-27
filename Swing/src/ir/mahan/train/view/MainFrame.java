@@ -1,12 +1,11 @@
 package ir.mahan.train.view;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
-import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -14,6 +13,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import javax.swing.KeyStroke;
 
 public class MainFrame extends JFrame {
 
@@ -60,9 +60,8 @@ public class MainFrame extends JFrame {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 	}
-
+	
 	// Menu Bar
-
 	private void createMenuBar() {
 
 		JMenuBar menuBar = new JMenuBar();
@@ -79,7 +78,10 @@ public class MainFrame extends JFrame {
 		JMenuItem preferencesMenuItem = new JMenuItem("Preferences");
 
 		JMenuItem personFormMenuItem = new JMenuItem("Person Form");
-
+		
+		JCheckBoxMenuItem showFormCheckBoxItem = new JCheckBoxMenuItem("Show the Form");
+		showFormCheckBoxItem.setSelected(true);
+		
 		menuBar.add(fileMenu);
 		menuBar.add(windowsMenu);
 		menuBar.add(showMenu);
@@ -90,12 +92,17 @@ public class MainFrame extends JFrame {
 		fileMenu.add(exitMenuItem);
 
 		windowsMenu.add(preferencesMenuItem);
-
 		showMenu.add(personFormMenuItem);
-
+		showMenu.add(showFormCheckBoxItem);
+		
 		fileMenu.setMnemonic(KeyEvent.VK_F);
 		exitMenuItem.setMnemonic(KeyEvent.VK_X);
-
+		
+		saveToFileMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, ActionEvent.CTRL_MASK));
+		loadFromFileMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+		exitMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.ALT_MASK));
+		preferencesMenuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_P, ActionEvent.CTRL_MASK));
+		
 		setJMenuBar(menuBar);
 
 		exitMenuItem.addActionListener(new ActionListener() {
@@ -121,10 +128,11 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				
+				/*
 				if(fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION){
-					
+										
 				}
+				*/
 				
 			}
 		});
