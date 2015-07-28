@@ -1,9 +1,13 @@
 package ir.mahan.train.view;
 
+import ir.mahan.train.controller.FileRepository;
+import ir.mahan.train.model.Person;
+
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -21,12 +25,16 @@ public class MainFrame extends JFrame {
 	public FormPanel formPanel;
 	private JFileChooser fileChooser;
 	
+	private List<Person> person;
+	
 	public MainFrame(String title) {
 
 		super(title);
 		this.setView();
 		this.createMenuBar();
 		this.addComponent();
+		
+		person = (List<Person>) new Person();
 		
 		fileChooser = new JFileChooser();
 		
@@ -111,7 +119,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				
 				int action  = JOptionPane.showConfirmDialog(MainFrame.this,
-						"DO you want to Exit?",
+						"Do you want to Exit?",
 						"Exit Confirmation",
 						JOptionPane.OK_CANCEL_OPTION);
 				
@@ -128,12 +136,30 @@ public class MainFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				/*
-				if(fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION){
-										
+				
+				/* Sample Code
+				JFileChooser chooser = new JFileChooser();
+				chooser.setCurrentDirectory(new java.io.File("."));
+				chooser.setDialogTitle("choosertitle");
+				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+				chooser.setAcceptAllFileFilterUsed(false);
+
+				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+				  System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
+				  System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
+				} else {
+				  System.out.println("No Selection ");
 				}
 				*/
 				
+				if(fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION){
+					
+					FileRepository fileRepository = new FileRepository(fileChooser.getSelectedFile());
+					
+					fileRepository.Save(person);
+					
+				}
+								
 			}
 		});
 		

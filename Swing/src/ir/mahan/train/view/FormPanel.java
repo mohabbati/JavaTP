@@ -17,10 +17,12 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
-import ir.mahan.train.controller.ISaveData;
+import ir.mahan.train.controller.FileRepository;
 import ir.mahan.train.model.*;
 
 public class FormPanel extends JPanel implements ActionListener{
+	
+	private FileRepository fileRepository;
 	
 	private JLabel nameLabel;
 	private JLabel familyLabel;
@@ -56,6 +58,8 @@ public class FormPanel extends JPanel implements ActionListener{
 		Dimension dim = getPreferredSize();
 		dim.width = 280;
 		setPreferredSize(dim);
+		
+		fileRepository = new FileRepository();
 		
 		nameLabel = new JLabel("Name: ");
 		familyLabel = new JLabel("Family: ");
