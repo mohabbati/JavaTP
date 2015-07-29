@@ -17,6 +17,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
 public class MainFrame extends JFrame {
@@ -24,8 +26,11 @@ public class MainFrame extends JFrame {
 	public TextPanel textPanel;
 	public FormPanel formPanel;
 	private JFileChooser fileChooser;
+	private JSplitPane splitPane;
+	private JTabbedPane tabbedPane;
 	
-	private List<Person> person;
+	
+	//private List<Person> person;
 	
 	public MainFrame(String title) {
 
@@ -34,7 +39,7 @@ public class MainFrame extends JFrame {
 		this.createMenuBar();
 		this.addComponent();
 		
-		person = (List<Person>) new Person();
+		//person = (List<Person>) new Person();
 		
 		fileChooser = new JFileChooser();
 		
@@ -45,7 +50,12 @@ public class MainFrame extends JFrame {
 	private void addComponent() {
 		textPanel = new TextPanel();
 		formPanel = new FormPanel();
-
+		tabbedPane = new JTabbedPane();
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, formPanel, tabbedPane);
+		
+		tabbedPane.add("Text Area", textPanel);
+		splitPane.setOneTouchExpandable(true);
+		
 		formPanel.setIstringListener(new IstringListener() {
 
 			@Override
@@ -55,8 +65,7 @@ public class MainFrame extends JFrame {
 			}
 		});
 
-		this.add(formPanel, BorderLayout.WEST);
-		this.add(textPanel, BorderLayout.EAST);
+		this.add(splitPane);
 
 	}
 
@@ -156,7 +165,7 @@ public class MainFrame extends JFrame {
 					
 					FileRepository fileRepository = new FileRepository(fileChooser.getSelectedFile());
 					
-					fileRepository.Save(person);
+					//fileRepository.Save(person);
 					
 				}
 								

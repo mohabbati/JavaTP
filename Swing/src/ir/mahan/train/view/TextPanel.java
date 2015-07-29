@@ -3,6 +3,7 @@ package ir.mahan.train.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -26,6 +27,7 @@ public class TextPanel extends JPanel{
 		dim.width = 300;
 		setPreferredSize(dim);;
 		
+		textArea.setFont(new Font(Font.SERIF, Font.PLAIN, 15));
 		
 //		Border innerBorder = BorderFactory.createTitledBorder("TextArea"); 
 //		Border outerBorder = BorderFactory.createEmptyBorder(5, 5, 5, 5); 

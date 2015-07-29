@@ -1,9 +1,14 @@
 package ir.mahan.train.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Person {
+public class Person implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5623347336058536359L;
 	public String firstName;
 	public String lastName;
 	public Gender gender;
