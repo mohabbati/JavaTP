@@ -1,4 +1,4 @@
-package ir.mahan.train.controller;
+package ir.mahan.train.repository;
 
 import java.util.List;
 

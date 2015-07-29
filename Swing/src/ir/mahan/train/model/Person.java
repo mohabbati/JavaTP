@@ -1,6 +1,7 @@
 package ir.mahan.train.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Person implements Serializable {
@@ -75,20 +76,12 @@ public class Person implements Serializable {
 		this.salary = salary;
 	}
 	
-	/*
-	public Person(String firstName, String lastName, Gender gender, int age,
-			Category category, City city, List<Sport> sport,
-			boolean isEmployee, long salary) {
+	public Person() {
+		
 		super();
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.gender = gender;
-		this.age = age;
-		this.category = category;
-		this.city = city;
-		this.sport = sport;
-		this.isEmployee = isEmployee;
-		this.salary = salary;
+		
+		this.city = new ArrayList<>();
+		this.sport = new ArrayList<>();
 	}
-	 */
+	
 }

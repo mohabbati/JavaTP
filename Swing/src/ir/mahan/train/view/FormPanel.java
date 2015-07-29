@@ -17,8 +17,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.JList;
 import javax.swing.border.Border;
 
-import ir.mahan.train.controller.FileRepository;
 import ir.mahan.train.model.*;
+import ir.mahan.train.repository.FileRepository;
 
 public class FormPanel extends JPanel implements ActionListener{
 	
@@ -289,15 +289,10 @@ public class FormPanel extends JPanel implements ActionListener{
 		person.gender = Gender.valueOf(genderCombo.getSelectedItem().toString());
 		person.age = Integer.parseInt(ageField.getText());
 		person.category = Category.valueOf(categoryCombo.getSelectedItem().toString());
-		if (cityPanel.cityTehranField.isSelected() == true) {
-			//cityList[0] = City.valueOf(City.Tehran.toString());
-			//person.city.add(City.valueOf(City.Tehran.toString()));
-			//person.city.add(City.Tehran);
-			//person.city.add(0, City.Tehran);
-		}
-		if (cityPanel.cityKermanField.isSelected() == true) {
-			//	person.city.add(City.Kerman);
-		}
+		if (cityPanel.cityTehranField.isSelected() == true)
+			person.city.add(City.Tehran);
+		if (cityPanel.cityKermanField.isSelected() == true)
+			person.city.add(City.Kerman);
 		person.sport = sportList.getSelectedValuesList();
 		person.isEmployee = empStatusCheck.isSelected();
 		if (person.isEmployee == true)

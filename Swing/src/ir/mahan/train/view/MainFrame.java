@@ -1,7 +1,7 @@
 package ir.mahan.train.view;
 
-import ir.mahan.train.controller.FileRepository;
 import ir.mahan.train.model.Person;
+import ir.mahan.train.repository.FileRepository;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
