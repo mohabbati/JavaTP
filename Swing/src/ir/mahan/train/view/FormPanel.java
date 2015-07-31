@@ -5,6 +5,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -22,8 +24,11 @@ import ir.mahan.train.repository.FileRepository;
 
 public class FormPanel extends JPanel implements ActionListener{
 	
-	private FileRepository fileRepository;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5198846704946223308L;
+
 	private JLabel nameLabel;
 	private JLabel familyLabel;
 	private JLabel categoryLabel;
@@ -58,8 +63,6 @@ public class FormPanel extends JPanel implements ActionListener{
 		Dimension dim = getPreferredSize();
 		dim.width = 280;
 		setPreferredSize(dim);
-		
-		fileRepository = new FileRepository();
 		
 		nameLabel = new JLabel("Name: ");
 		familyLabel = new JLabel("Family: ");
@@ -282,8 +285,6 @@ public class FormPanel extends JPanel implements ActionListener{
 		
 		Person person = new Person();
 		
-		//City[] cityList = new City[2];
-		
 		person.firstName = nameField.getText();
 		person.lastName = familyField.getText();
 		person.gender = Gender.valueOf(genderCombo.getSelectedItem().toString());
@@ -300,19 +301,7 @@ public class FormPanel extends JPanel implements ActionListener{
 		else
 			person.salary = 0;
 		
-		StringBuilder stringPerson = new StringBuilder();
-		
-		stringPerson.append("First Name: "+person.firstName);
-		stringPerson.append("; Last Name: "+person.lastName);
-		stringPerson.append("; Gender: "+person.gender);
-		stringPerson.append("; Age: "+person.age);
-		stringPerson.append("; Category: "+person.category);
-		stringPerson.append("; City: "+person.city);
-		stringPerson.append("; Sport: "+person.sport);
-		if (person.isEmployee == true)
-			stringPerson.append("; Salary: "+person.salary);
-		
-		istringListener.strginEmmited(stringPerson.toString());
+		istringListener.strginEmmited(person);
 		
 	}
 

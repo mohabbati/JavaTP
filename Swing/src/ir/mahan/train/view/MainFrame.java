@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
@@ -21,8 +23,19 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
+import org.codehaus.jackson.JsonParser;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
+
 public class MainFrame extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2939449444417001502L;
+
+	private List<Person> people;
+	
 	public TextPanel textPanel;
 	public FormPanel formPanel;
 	private JFileChooser fileChooser;
@@ -30,21 +43,21 @@ public class MainFrame extends JFrame {
 	private JTabbedPane tabbedPane;
 	
 	
-	//private List<Person> person;
-	
 	public MainFrame(String title) {
-
+		
 		super(title);
+		
+		people = new LinkedList<Person>();
+		
 		this.setView();
 		this.createMenuBar();
 		this.addComponent();
-		
-		//person = (List<Person>) new Person();
 		
 		fileChooser = new JFileChooser();
 		
 		fileChooser.setAcceptAllFileFilterUsed(false);
 		fileChooser.addChoosableFileFilter(new PersonFileFilter());
+		
 	}
 
 	private void addComponent() {
@@ -59,9 +72,16 @@ public class MainFrame extends JFrame {
 		formPanel.setIstringListener(new IstringListener() {
 
 			@Override
-			public void strginEmmited(String input) {
-				textPanel.setText(input);
-
+			public void strginEmmited(Object object) {
+				
+				Person person = new Person();
+				
+				person = (Person) object;
+				
+				people.add(person);
+				
+				textPanel.setText((Person4Show(person)));
+				
 			}
 		});
 
@@ -146,26 +166,15 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				
-				/* Sample Code
-				JFileChooser chooser = new JFileChooser();
-				chooser.setCurrentDirectory(new java.io.File("."));
-				chooser.setDialogTitle("choosertitle");
-				chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-				chooser.setAcceptAllFileFilterUsed(false);
-
-				if (chooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-				  System.out.println("getCurrentDirectory(): " + chooser.getCurrentDirectory());
-				  System.out.println("getSelectedFile() : " + chooser.getSelectedFile());
-				} else {
-				  System.out.println("No Selection ");
-				}
-				*/
-				
 				if(fileChooser.showSaveDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION){
 					
 					FileRepository fileRepository = new FileRepository(fileChooser.getSelectedFile());
 					
-					//fileRepository.Save(person);
+					List<Object> objects = new LinkedList<Object>();
+					
+					objects = (List<Object>)(Object)people;
+					
+					fileRepository.Save(objects);
 					
 				}
 								
@@ -178,11 +187,56 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent event) {
 				
 				if(fileChooser.showOpenDialog(MainFrame.this) == JFileChooser.APPROVE_OPTION){
+
+					FileRepository fileRepository = new FileRepository(fileChooser.getSelectedFile());
+					
+					String stringPerson;
+					
+					stringPerson = fileRepository.Retrieve();
+					
+					ObjectMapper objectMapper = new ObjectMapper();
+					
+					people.removeAll(people);
+					
+					try {
+						
+						people = objectMapper.readValue(stringPerson, new TypeReference<List<Person>>(){});
+						
+					} catch (IOException e) {
+
+						e.printStackTrace();
+						
+					}
+					
+					for (Person person : people) {
+						
+						textPanel.setText(Person4Show(person));
+						
+					}
 					
 				}
 				
 			}
 		});
+		
+	}
+	
+	String Person4Show(Person person) {
+		
+		StringBuilder stringPerson = new StringBuilder();
+		
+		stringPerson.append("First Name: "+person.firstName);
+		stringPerson.append("; Last Name: "+person.lastName);
+		stringPerson.append("; Gender: "+person.gender);
+		stringPerson.append("; Age: "+person.age);
+		stringPerson.append("; Category: "+person.category);
+		stringPerson.append("; City: "+person.city);
+		stringPerson.append("; Sport: "+person.sport);
+		if (person.isEmployee == true)
+			stringPerson.append("; Salary: "+person.salary);
+		
+		return stringPerson.toString();
+		
 	}
 
 }

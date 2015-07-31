@@ -1,23 +1,32 @@
 package ir.mahan.train.repository;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import org.json.JSONObject;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.type.TypeFactory;
+import org.codehaus.jackson.type.JavaType;
+import org.codehaus.jackson.type.TypeReference;
+
+import ir.mahan.train.model.Person;
 
 public class FileRepository implements IRepository {
 
 	File file;
 	
-	public FileRepository() {
-		
-	}
-
 	public FileRepository(File file) {
 		
 		this.file = file;
@@ -25,7 +34,7 @@ public class FileRepository implements IRepository {
 	}
 	
 	@Override
-	public boolean Save(List<Object> objectList) {
+	public boolean Save(List<Object> objects) {
 		
 		try {
 			
@@ -35,26 +44,26 @@ public class FileRepository implements IRepository {
 				
 			}
 			
-			JSONObject jsonObject = new JSONObject(objectList.toString());
 			
-			FileOutputStream fileOutputStream = new FileOutputStream(file);
+			FileOutputStream fileOutputStream = new FileOutputStream(this.file);
 			
 			OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
 			
-			outputStreamWriter.write(jsonObject.toString());
+			ObjectMapper objectMapper = new ObjectMapper();
+
+			objectMapper.writeValue(this.file, objects);
+
+			Object json = objectMapper.readValue(objectMapper.writeValueAsString(objects), Object.class);
 			
-			//for(Object anObject : objectList) {
-			
-				//outputStreamWriter.write(anObject.toString());
-			
-			//}
+			outputStreamWriter.write(objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(json));
 			
 			outputStreamWriter.close();
+			
 			
 			JOptionPane.showConfirmDialog(null,
 					"Saved successfully.",
 					"Save...",
-					JOptionPane.OK_OPTION,
+					JOptionPane.PLAIN_MESSAGE,
 					JOptionPane.INFORMATION_MESSAGE);
 			
 			return true;
@@ -115,6 +124,69 @@ public class FileRepository implements IRepository {
 			
 		}
 		
+	}
+
+	@Override
+	public String Retrieve() {
+		/*
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		List<Object> objects = null;
+		
+		try {
+			
+			//objects = (List<Object>) objectMapper.readValue(this.file, Object.class);
+			
+			objects = objectMapper.readValue(this.file, new TypeReference<List<Person>>(){}); //OK
+			
+			//objects = objectMapper.readValue(this.file, new TypeReference<List<T>>(){});
+			
+		} catch (IOException e) {
+
+			//e.printStackTrace();
+			
+			JOptionPane.showConfirmDialog(null,
+					"Can not read the file.",
+					"Retrieve...",
+					JOptionPane.PLAIN_MESSAGE,
+					JOptionPane.ERROR_MESSAGE);
+		
+		}
+
+		return ((List<Object>)objects);
+		*/
+		
+		try {
+			
+			FileInputStream fileInputStream = new FileInputStream(this.file);
+			
+			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+			
+			StringBuffer stringBuffer = new StringBuffer();
+			
+			int content;
+			
+			while ((content = inputStreamReader.read()) != -1) {
+
+				stringBuffer.append((char) content);
+				
+			}
+			
+			inputStreamReader.close();
+			
+			return stringBuffer.toString();
+		
+		} catch (IOException e) {
+
+			JOptionPane.showConfirmDialog(null,
+					"Can not read the file.",
+					"Retrieve...",
+					JOptionPane.PLAIN_MESSAGE,
+					JOptionPane.ERROR_MESSAGE);
+			
+			return null;
+		
+		}
 	}
 
 }

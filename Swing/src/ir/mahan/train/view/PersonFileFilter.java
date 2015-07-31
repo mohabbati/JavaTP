@@ -8,6 +8,7 @@ public class PersonFileFilter extends FileFilter {
 
 	@Override
 	public boolean accept(File file) {
+		
 		if (file.isDirectory() == true){
 		
 			return true;
@@ -15,24 +16,22 @@ public class PersonFileFilter extends FileFilter {
 		}
 		
 		String name = file.getName();
-		String extention = Utils.getFileExtention(name);
+		String extension = Utils.getFileExtention(name);
 		
-		if(extention == null){
+		if(extension == null)
 			return false;
-		}
 		
-		if(extention == null){
+		if (extension.equalsIgnoreCase("per"))
+			return true;
+		else
 			return false;
-		}
-		
-		return false;
 		
 	}
 
 	@Override
 	public String getDescription() {
 		
-		return "Person Database File (*.per)";
+		return "Person Repository File (*.per)";
 		
 	}
 

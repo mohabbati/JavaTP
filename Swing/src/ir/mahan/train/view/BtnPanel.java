@@ -1,6 +1,5 @@
 package ir.mahan.train.view;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -12,6 +11,10 @@ import javax.swing.JPanel;
 
 public class BtnPanel extends JPanel implements ActionListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4827286426324448157L;
 	private JButton okButton;
 	private JButton cancelButton;
 	

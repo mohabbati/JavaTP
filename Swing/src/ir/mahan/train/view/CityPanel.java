@@ -2,24 +2,21 @@ package ir.mahan.train.view;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 
 public class CityPanel extends JPanel {
 
-	private JLabel cityLabel;
-	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4306168673428481919L;
+
 	public JCheckBox cityTehranField;
 	public JCheckBox cityKermanField;
 	
 	public CityPanel() {
-		
-		cityLabel = new JLabel("City: ");
 		
 		cityTehranField = new JCheckBox();
 		cityKermanField = new JCheckBox();
