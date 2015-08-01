@@ -2,8 +2,6 @@ package ir.mahan.train.repository;
 
 import java.util.List;
 
-import org.codehaus.jackson.type.TypeReference;
-
 public interface IRepository {
 
 	public boolean Save(List<Object> objects);

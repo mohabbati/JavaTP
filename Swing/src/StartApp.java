@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import ir.mahan.train.view.MainFrame;
@@ -15,9 +14,6 @@ public class StartApp {
 				
 			}
 		});
-		
-		
-		
 
 	}
 

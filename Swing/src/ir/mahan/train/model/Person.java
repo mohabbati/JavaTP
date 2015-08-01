@@ -10,6 +10,9 @@ public class Person implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 5623347336058536359L;
+	
+	public static int count = 0;
+	public int ID;
 	public String firstName;
 	public String lastName;
 	public Gender gender;
@@ -79,6 +82,8 @@ public class Person implements Serializable {
 	public Person() {
 		
 		super();
+		
+		this.ID = count++;
 		
 		this.city = new ArrayList<>();
 		this.sport = new ArrayList<>();

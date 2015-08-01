@@ -23,7 +23,6 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 
-import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -38,10 +37,10 @@ public class MainFrame extends JFrame {
 	
 	public TextPanel textPanel;
 	public FormPanel formPanel;
+	public TablePanel tablePanel;
 	private JFileChooser fileChooser;
 	private JSplitPane splitPane;
 	private JTabbedPane tabbedPane;
-	
 	
 	public MainFrame(String title) {
 		
@@ -52,6 +51,8 @@ public class MainFrame extends JFrame {
 		this.setView();
 		this.createMenuBar();
 		this.addComponent();
+		
+		tablePanel.setData(people);
 		
 		fileChooser = new JFileChooser();
 		
@@ -64,9 +65,11 @@ public class MainFrame extends JFrame {
 		textPanel = new TextPanel();
 		formPanel = new FormPanel();
 		tabbedPane = new JTabbedPane();
+		tablePanel = new TablePanel();
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, formPanel, tabbedPane);
 		
 		tabbedPane.add("Text Area", textPanel);
+		tabbedPane.add("Person Table", tablePanel);
 		splitPane.setOneTouchExpandable(true);
 		
 		formPanel.setIstringListener(new IstringListener() {
@@ -74,13 +77,11 @@ public class MainFrame extends JFrame {
 			@Override
 			public void strginEmmited(Object object) {
 				
-				Person person = new Person();
+				people.add((Person) object);
 				
-				person = (Person) object;
+				textPanel.setText((Person4Show((Person) object)));
 				
-				people.add(person);
-				
-				textPanel.setText((Person4Show(person)));
+				tablePanel.refresh();
 				
 			}
 		});

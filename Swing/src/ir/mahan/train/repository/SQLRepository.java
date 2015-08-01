@@ -3,8 +3,6 @@ package ir.mahan.train.repository;
 import java.sql.Connection;
 import java.util.List;
 
-import org.codehaus.jackson.type.TypeReference;
-
 public class SQLRepository implements IRepository {
 
 	Connection connection;
