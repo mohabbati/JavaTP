@@ -72,6 +72,9 @@ public class MainFrame extends JFrame {
 		tabbedPane.add("Person Table", tablePanel);
 		splitPane.setOneTouchExpandable(true);
 		
+		this.add(splitPane);
+		
+		
 		formPanel.setIstringListener(new IstringListener() {
 
 			@Override
@@ -85,8 +88,6 @@ public class MainFrame extends JFrame {
 				
 			}
 		});
-
-		this.add(splitPane);
 
 	}
 
@@ -214,6 +215,9 @@ public class MainFrame extends JFrame {
 						textPanel.setText(Person4Show(person));
 						
 					}
+					
+					tablePanel.setData(people);
+					tablePanel.refresh();
 					
 				}
 				
