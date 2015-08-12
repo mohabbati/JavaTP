@@ -74,5 +74,50 @@ public class PersonTableModel extends AbstractTableModel {
 		return colName[column];
 		
 	}
+	
+public boolean isCellEditable(int row, int col) {
+		
+		switch (col) {
+		case 1:
+			return true;
+		case 2:
+			return true;
+		case 3:
+			return true;
+			
+		default:
+			return false;
+		}
+		
+	}
+	
+	public void setValueAt(Object value, int row, int col) {
+
+		if (db == null) {
+			
+			return;
+		
+		}
+		
+		Person person = db.get(row);
+		
+		switch (col) {
+		case 1:
+			person.setFirstName((String) value); 
+			break;
+		case 2:
+			person.setLastName((String) value); 
+			break;
+		case 3:
+			person.setAge((int) value); 
+			break;
+			
+		default:
+			
+			return;
+			
+		}
+		
+	}
 
 }

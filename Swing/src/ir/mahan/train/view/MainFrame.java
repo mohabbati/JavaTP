@@ -21,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 
 import org.codehaus.jackson.map.ObjectMapper;
@@ -35,6 +36,7 @@ public class MainFrame extends JFrame {
 
 	private List<Person> people;
 	
+	public ToolbarPanel toolBar;
 	public TextPanel textPanel;
 	public FormPanel formPanel;
 	public TablePanel tablePanel;
@@ -62,6 +64,7 @@ public class MainFrame extends JFrame {
 	}
 
 	private void addComponent() {
+		toolBar = new ToolbarPanel();
 		textPanel = new TextPanel();
 		formPanel = new FormPanel();
 		tabbedPane = new JTabbedPane();
@@ -72,8 +75,8 @@ public class MainFrame extends JFrame {
 		tabbedPane.add("Person Table", tablePanel);
 		splitPane.setOneTouchExpandable(true);
 		
-		this.add(splitPane);
-		
+		this.add(splitPane, BorderLayout.CENTER);
+		this.add(toolBar, BorderLayout.PAGE_START);
 		
 		formPanel.setIstringListener(new IstringListener() {
 
