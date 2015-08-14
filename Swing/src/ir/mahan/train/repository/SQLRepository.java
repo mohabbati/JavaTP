@@ -27,7 +27,7 @@ public class SQLRepository implements IRepository {
 			throw new Exception("Driver not found.");
 		}
 		
-		String connectionURL = "jdbc:sqlserver://swsql.mahanair.aero;user=sa;password=123;database=C005_S01_N";
+		String connectionURL = "jdbc:sqlserver://swsql.mahanair.aero;user=sa;password=123;database=JavaTraining";
 		connection = DriverManager.getConnection(connectionURL);
 		System.out.println("Connected");
 	}
@@ -39,7 +39,7 @@ public class SQLRepository implements IRepository {
 	@Override
 	public boolean Save(List<Object> objects) {
 
-		String SQLcheckCommand = "select count(*) from dbo.Person where ID = ?";
+		String SQLcheckCommand = "select count(*) from G5.Person where ID = ?";
 		
 		//PreparedStatement checkstm = connection.
 		
