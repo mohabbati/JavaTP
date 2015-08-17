@@ -62,7 +62,7 @@ public class MainFrame extends JFrame {
 		fileChooser.addChoosableFileFilter(new PersonFileFilter());
 		
 	}
-
+	
 	private void addComponent() {
 		toolBar = new ToolbarPanel();
 		textPanel = new TextPanel();
@@ -88,6 +88,19 @@ public class MainFrame extends JFrame {
 				textPanel.setText((Person4Show((Person) object)));
 				
 				tablePanel.refresh();
+				
+			}
+		});
+		
+		
+		tablePanel.addPersonTableListener(new PersonTableListener() {
+			
+			@Override
+			public void rowDeleted(int row) {
+				
+				people.remove(row);
+				
+				tablePanel.setData(people);
 				
 			}
 		});
